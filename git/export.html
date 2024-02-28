@@ -1,0 +1,333 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>py2flowchart</title>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.3.0/raphael.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/flowchart/1.18.0/flowchart.min.js"></script>
+    </head>
+    <body>
+        <div id="canvas"></div>
+        <pre id="code" style="display:none"></pre>
+        <script>
+            code= `
+start=>start: start
+operation1=>operation: from py2flowchart import pyfile2flowchart
+operation2=>operation: from itertools import product
+operation3=>operation: from tabulate import tabulate
+input4=>input: inp = input()
+condition5=>condition: while inp.count("(") != inp.count(")") or inp.count("=")>1|past
+output6=>output: print("Ingrese una expresión valida.")
+input7=>input: inp = input()
+operation8=>operation: division = inp.split("≡")
+operation9=>operation: comparativa = []
+operation10=>operation: variables_chequeo = []
+operation11=>operation: equivalencia = []
+condition12=>condition: for i in range(len(informacion_en_vf))|past
+operation13=>operation: equivalencia.append(informacion_en_vf[i][-1])
+operation14=>operation: equivalencia.insert(0,instancia)
+operation15=>operation: return equivalencia
+operation16=>operation: alfanumericos = "abcdefghijklmnopqrstuvwxyz"
+operation17=>operation: final = []
+operation18=>operation: string2 = ""
+operation19=>operation: a = 0
+operation20=>operation: ct = 0
+condition21=>condition: for i in string|past
+condition22=>condition: if i == "("
+operation23=>operation: a += 1
+operation24=>operation: ct = max(ct,a)
+operation25=>operation: cambio = str(a) + i
+operation26=>operation: string2 += cambio
+operation27=>operation: string.replace("(",cambio)
+condition28=>condition: if i == ")"
+operation29=>operation: cambio = i + str(a)
+operation30=>operation: string2 += cambio
+operation31=>operation: string.replace(")",cambio)
+operation32=>operation: a -= 1
+operation33=>operation: string2 += i
+operation34=>operation: subcadenas = []
+condition35=>condition: for i in range(ct+1)|past
+operation36=>operation: subcadena = string2.split(str(i))
+condition37=>condition: for j in subcadena|past
+condition38=>condition: if len(j)>0 and j[0] == "("
+operation39=>operation: subcadenas.append(j)
+operation40=>operation: pass
+condition41=>condition: for i in subcadenas|past
+operation42=>operation: conjunto = ""
+condition43=>condition: for j in i|past
+condition44=>condition: if j in "123456789"
+operation45=>operation: conjunto += ""
+operation46=>operation: conjunto += j
+condition47=>condition: if conjunto not in final
+operation48=>operation: final.append(conjunto)
+operation49=>operation: pass
+operation50=>operation: movidos = []
+condition51=>condition: for i in final|past
+condition52=>condition: if "not" in i and i not in movidos
+operation53=>operation: final.append(i)
+operation54=>operation: final.remove(i)
+operation55=>operation: movidos.append(i)
+operation56=>operation: pass
+condition57=>condition: for j in alfanumericos|past
+condition58=>condition: if i == "(not"+j+")"
+operation59=>operation: final.remove(i)
+operation60=>operation: final.insert(0,i)
+operation61=>operation: pass
+condition62=>condition: if string not in final
+operation63=>operation: final.append(string)
+operation64=>operation: pass
+operation65=>operation: return final
+condition66=>condition: for i in range(len(final))|past
+operation67=>operation: datos.append([])
+operation68=>operation: estados = product([True,False], repeat = len(variables))
+condition69=>condition: for i in estados|past
+operation70=>operation: estancia = dict(zip(variables,i))
+operation71=>operation: informacion.append([estancia[i] for i in variables])
+condition72=>condition: for j in range(len(final))|past
+operation73=>operation: valor = eval(final[j], estancia)
+operation74=>operation: datos[j].append(valor)
+condition75=>condition: for i in range(len(informacion))|past
+condition76=>condition: for j in range(len(datos))|past
+condition77=>condition: for k in range(len(datos[j]))|past
+condition78=>condition: if k == i
+operation79=>operation: informacion[i].append(datos[j][k])
+operation80=>operation: pass
+operation81=>operation: return informacion
+condition82=>condition: for i in range(len(informacion))|past
+operation83=>operation: informacion_en_vf.append([])
+condition84=>condition: for j in range(len(informacion[i]))|past
+condition85=>condition: if informacion[i][j] == True
+operation86=>operation: informacion_en_vf[i].append('V')
+operation87=>operation: informacion_en_vf[i].append('F')
+operation88=>operation: return informacion_en_vf
+condition89=>condition: for instancia in division|past
+operation90=>operation: formato = instancia
+operation91=>operation: informacion = []
+operation92=>operation: final = []
+operation93=>operation: datos = []
+operation94=>operation: informacion_en_vf = []
+operation95=>operation: operadores = {"⋀":" & ","∨":" or ","¬":" not ","⨁":" ^ ","→":" <= ","↔":" == "}
+operation96=>operation: variables = sorted(set([i for i in formato if i.isalpha()]))
+operation97=>operation: variables_chequeo.append(variables)
+operation98=>operation: formato = ''.join([operadores[i] if i in operadores else i for i in formato])
+operation99=>operation: final = division_expresiones(formato)
+operation100=>operation: informacion = evaluar_operaciones(final,variables)
+operation101=>operation: informacion_en_vf = cambiar_vf(informacion, informacion_en_vf)
+condition102=>condition: for i in range(len(final))|past
+operation103=>operation: final[i] = final[i].replace(" & ","⋀").replace(" or ","∨").replace(" not ","¬").replace(" ^ ","⨁").replace(" <= ","→").replace(" == ","↔")
+operation104=>operation: columnas = ["N°"] + list(variables) + list(final)
+output105=>output: print(tabulate(informacion_en_vf, headers=columnas, tablefmt="heavy_outline", showindex="always", numalign="right", stralign="center"))
+condition106=>condition: if len(division) == 2
+operation107=>operation: datos = equivalencias(informacion_en_vf, instancia)
+operation108=>operation: comparativa.append(datos)
+operation109=>operation: pass
+condition110=>condition: if len(comparativa) == 2
+operation111=>operation: ct = 0
+condition112=>condition: if len(comparativa[0]) == len(comparativa[1])
+condition113=>condition: if len(variables_chequeo[0]) != len(variables_chequeo[0])
+condition114=>condition: for i in variables_chequeo[0]|past
+condition115=>condition: if i not in variables_chequeo[1]
+output116=>output: print("Las expresiones no son equivalentes.")
+subroutine117=>subroutine: exit()
+operation118=>operation: pass
+condition119=>condition: for i in variables_chequeo[1]|past
+condition120=>condition: if i not in variables_chequeo[0]
+output121=>output: print("Las expresiones no son equivalentes.")
+subroutine122=>subroutine: exit()
+operation123=>operation: pass
+operation124=>operation: pass
+condition125=>condition: if comparativa[0][2:-1] == comparativa[1][2:-1]
+output126=>output: print("Las expresiones son equivalentes.")
+output127=>output: print("Las expresiones no son equivalentes.")
+output128=>output: print("Las expresiones no son equivalentes.")
+operation129=>operation: pass
+subroutine130=>subroutine: pyfile2flowchart('javi.py', 'export.html')
+end=>end: end
+start->operation1
+operation1->operation2
+operation2->operation3
+operation3->input4
+input4->condition5
+condition5(yes)->output6
+output6->input7
+input7(left)->condition5
+condition5(no)->operation8
+operation8->operation9
+operation9->operation10
+operation10->operation11
+operation11->condition12
+condition12(yes)->operation13
+operation13(left)->condition12
+condition12(no)->operation14
+operation14->operation15
+operation15->operation16
+operation16->operation17
+operation17->operation18
+operation18->operation19
+operation19->operation20
+operation20->condition21
+condition21(yes)->condition22
+condition22(yes)->operation23
+operation23->operation24
+operation24->operation25
+operation25->operation26
+operation26->operation27
+condition22(no)->condition28
+condition28(yes)->operation29
+operation29->operation30
+operation30->operation31
+operation31->operation32
+condition28(no)->operation33
+operation27->condition21
+operation32->condition21
+operation33->condition21
+condition21(no)->operation34
+operation34->condition35
+condition35(yes)->operation36
+operation36->condition37
+condition37(yes)->condition38
+condition38(yes)->operation39
+condition38(no)->operation40
+operation39->condition37
+operation40->condition37
+condition37(no)->condition35
+condition35(no)->condition41
+condition41(yes)->operation42
+operation42->condition43
+condition43(yes)->condition44
+condition44(yes)->operation45
+condition44(no)->operation46
+operation45->condition43
+operation46->condition43
+condition43(no)->condition47
+condition47(yes)->operation48
+condition47(no)->operation49
+operation48->condition41
+operation49->condition41
+condition41(no)->operation50
+operation50->condition51
+condition51(yes)->condition52
+condition52(yes)->operation53
+operation53->operation54
+operation54->operation55
+condition52(no)->operation56
+operation55->condition57
+operation56->condition57
+condition57(yes)->condition58
+condition58(yes)->operation59
+operation59->operation60
+condition58(no)->operation61
+operation60->condition57
+operation61->condition57
+condition57(no)->condition51
+condition51(no)->condition62
+condition62(yes)->operation63
+condition62(no)->operation64
+operation63->operation65
+operation64->operation65
+operation65->condition66
+condition66(yes)->operation67
+operation67(left)->condition66
+condition66(no)->operation68
+operation68->condition69
+condition69(yes)->operation70
+operation70->operation71
+operation71->condition72
+condition72(yes)->operation73
+operation73->operation74
+operation74(left)->condition72
+condition72(no)->condition69
+condition69(no)->condition75
+condition75(yes)->condition76
+condition76(yes)->condition77
+condition77(yes)->condition78
+condition78(yes)->operation79
+condition78(no)->operation80
+operation79->condition77
+operation80->condition77
+condition77(no)->condition76
+condition76(no)->condition75
+condition75(no)->operation81
+operation81->condition82
+condition82(yes)->operation83
+operation83->condition84
+condition84(yes)->condition85
+condition85(yes)->operation86
+condition85(no)->operation87
+operation86->condition84
+operation87->condition84
+condition84(no)->condition82
+condition82(no)->operation88
+operation88->condition89
+condition89(yes)->operation90
+operation90->operation91
+operation91->operation92
+operation92->operation93
+operation93->operation94
+operation94->operation95
+operation95->operation96
+operation96->operation97
+operation97->operation98
+operation98->operation99
+operation99->operation100
+operation100->operation101
+operation101->condition102
+condition102(yes)->operation103
+operation103(left)->condition102
+condition102(no)->operation104
+operation104->output105
+output105->condition106
+condition106(yes)->operation107
+operation107->operation108
+condition106(no)->operation109
+operation108->condition89
+operation109->condition89
+condition89(no)->condition110
+condition110(yes)->operation111
+operation111->condition112
+condition112(yes)->condition113
+condition113(yes)->condition114
+condition114(yes)->condition115
+condition115(yes)->output116
+output116->subroutine117
+condition115(no)->operation118
+subroutine117->condition114
+operation118->condition114
+condition114(no)->condition119
+condition119(yes)->condition120
+condition120(yes)->output121
+output121->subroutine122
+condition120(no)->operation123
+subroutine122->condition119
+operation123->condition119
+condition113(no)->operation124
+condition119(no)->condition125
+operation124->condition125
+condition125(yes)->output126
+condition125(no)->output127
+condition112(no)->output128
+condition110(no)->operation129
+output126->subroutine130
+output127->subroutine130
+output128->subroutine130
+operation129->subroutine130
+subroutine130->end
+
+`;
+            chart = flowchart.parse(code);
+            chart.drawSVG('canvas', {"line-width": 2});
+			console.log(code);
+			var code_pre = code.replaceAll("&", "&amp;").replaceAll("<", "&lt;");
+            document.getElementById("code").innerHTML = code_pre;
+        </script>
+		<script>
+		// double click to copy svg to clipboard
+		document.ondblclick = async () => {
+			var svg = document.getElementsByTagName('svg')[0];
+			await navigator.clipboard.writeText(svg.outerHTML);
+		}
+		</script>
+		<!-- see https://github.com/dstang2000/py2flowchart -->
+    </body>
+</html>
